@@ -1,1 +1,10 @@
-A completar...
+Arquitectura REST es un estilo para diseñar interfaces web, enfocado en recursos y comunicación HTTP sin estado. 
+La arquitectura de microservicios es un patrón para construir aplicaciones como servicios pequeños e independientes que se comunican entre sí, a menudo usando APIs REST.
+
+La diferencia clave está en que REST refiere a la interfaz mientras microservicios refiere a la estructura interna de la aplicación.
+
+Los desafíos al dividir una API REST monolítica en microservicios serían definir límites de servicio, 
+estionar la comunicación y datos distribuidos, la infraestructura, pruebas y despliegue, y la complejidad inicial.
+
+Las ventajas teóricas de microservicios sobre un monolito REST son: mejor escalabilidad y resiliencia, 
+flexibilidad tecnológica, facilitar el trabajo entre equipos, mejor mantenibilidad y despliegue independiente.
