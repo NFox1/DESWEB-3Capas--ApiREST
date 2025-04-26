@@ -36,6 +36,9 @@ app.get('/', (req, res) => {
                 button:hover { background-color: #45a049; }
                 #product-list { margin-top: 20px; border: 1px solid #eee; padding: 10px; border-radius: 5px; }
                 #product-list h3 { margin-top: 0; }
+                table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+                th { background-color: #f2f2f2; }
             </style>
         </head>
         <body>
@@ -53,9 +56,51 @@ app.get('/', (req, res) => {
             </form>
 
             <div id="product-list">
-                <h3>Lista de Productos (Consultar la API en /productos)</h3>
-                <p>Para ver la lista de productos, puedes usar un cliente HTTP como Postman o la herramienta de desarrollo de tu navegador e ir a la ruta <a href="/productos" target="_blank">/productos</a>.</p>
+                <h3>Lista de Productos</h3>
+                <table id="products-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
             </div>
+
+            <script>
+                async function fetchProducts() {
+                    try {
+                        const response = await fetch('/productos');
+                        if (!response.ok) {
+                            throw new Error(\`HTTP error! status: \${response.status}\`);
+                        }
+                        const products = await response.json();
+                        const tableBody = document.querySelector('#products-table tbody');
+                        tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar los productos
+
+                        products.forEach(product => {
+                            const row = tableBody.insertRow();
+                            const idCell = row.insertCell();
+                            const nameCell = row.insertCell();
+                            const priceCell = row.insertCell();
+
+                            idCell.textContent = product.id;
+                            nameCell.textContent = product.name;
+                            priceCell.textContent = \`$\${product.price.toFixed(2)}\`;
+                        });
+                    } catch (error) {
+                        console.error('Error al obtener los productos:', error);
+                        const productListDiv = document.getElementById('product-list');
+                        productListDiv.innerHTML = '<p>Error al cargar la lista de productos.</p>';
+                    }
+                }
+
+                // Cargar los productos cuando la página se carga
+                window.onload = fetchProducts;
+            </script>
         </body>
         </html>
     `);
