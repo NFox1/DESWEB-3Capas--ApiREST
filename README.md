@@ -1,37 +1,49 @@
 # DESWEB-3Capas--ApiREST
-Esta aplicación implementa una API REST para la gestión de productos, manteniendo una arquitectura de 3 capas, aunque la capa de controlador se ha integrado directamente en las rutas de Express en app.js para simplificar.
 
-Características de la API REST implementada:
+## Características REST de esta API
 
-* Uso de métodos HTTP estándar:  
-  *  GET /productos: Recupera la lista de todos los productos.  
-  * POST /productos: Crea un nuevo producto.  
+1. Interfaz uniforme:
+   - Uso de métodos HTTP estándar (GET, POST)
+   - Uso de nombres de recursos en plural (/productos)
+   - Representación de recursos en JSON
 
-* Uso de rutas basadas en recursos: La URL /productos representa la colección de productos. 
+2. Sin estado (Stateless): Cada solicitud contiene toda la información necesaria
 
-* Transferencia de estado mediante JSON: Las solicitudes y respuestas utilizan el formato JSON para la transferencia de datos.  
+3. Manejo adecuado de códigos de estado HTTP:
+   - 200 para éxito en GET
+   - 201 para creación exitosa
+   - 400 para errores de cliente
+   - 404 para rutas no encontradas
+   - 500 para errores de servidor
 
-* Respuestas con códigos de estado HTTP: Se utilizan códigos de estado HTTP para indicar el resultado de las peticiones, por ejemplo...  
-  * 200 OK  
-  * 201 Created  
-  * 400 Bad Request  
+4. Separación clara entre cliente y servidor
 
-* Diseño sin estado (Stateless): Cada petición del cliente al servidor contiene toda la información necesaria para entender la solicitud. El servidor no guarda información sobre el estado del cliente entre peticiones.
+5. Recursos identificables: Los productos son recursos identificables con URIs (/productos)
 
-Diferencias entre este diseño y la arquitectura de 3 capas anterior:
+## Diferencias con la arquitectura anterior
 
-* Interfaz Principal:
-  * Arquitectura Anterior: Endpoints HTTP (/productos) manejados por un controlador.
-  * API REST Refactorizada: Endpoints HTTP (/productos) manejados directamente en app.js.  
+1. Enfoque:
+   - Anterior: Aplicación web con interfaz HTML servida desde el backend
+   - Actual: API REST pura que solo devuelve datos (JSON)
 
-* Organización del Código:
-  * Arquitectura Anterior: Lógica de enrutamiento en app.js, lógica de manejo de peticiones en productController.js.
-  * API REST Refactorizada: Lógica de enrutamiento y manejo de peticiones combinada en app.js.  
+2. Capa de presentación:
+   - Anterior: Incluía generación de HTML en el backend
+   - Actual: Eliminada completamente, el frontend sería una aplicación separada
 
-* Separación de Responsabilidades:
-  * Arquitectura Anterior: Más estricta separación entre el enrutamiento y la lógica de la aplicación.
-  * API REST Refactorizada: Ligeramente menos separación; la lógica de las rutas está más acoplada a la definición de las rutas.  
+3. Rutas/Endpoints:
+   - Anterior: Mezclaba rutas API (/api/products) y rutas de vista (/) 
+   - Actual: Solo endpoints REST consistentes (/productos)
 
-* Mantenibilidad (para aplicaciones más grandes):
-  * Arquitectura Anterior: Generalmente más fácil de mantener y escalar debido a la clara separación.
-  * API REST Refactorizada: Podría volverse más difícil de manejar a medida que la aplicación crece.
+4. Manejo de errores:
+   - Anterior: Solo manejo básico de errores
+   - Actual: Manejo más completo con middleware de errores
+
+5. Flexibilidad:
+   - Anterior: Acoplada a un frontend específico
+   - Actual: Puede ser consumida por cualquier cliente (web, móvil, etc.)
+
+6. Encabezados (Headers):
+   - Anterior: No se usaban explícitamente
+   - Actual: Se asume el uso de Content-Type: application/json
+
+La principal ventaja de este diseño es que sigue mejor los principios REST, permitiendo una mayor flexibilidad en el consumo de la API por diferentes tipos de clientes y facilitando la escalabilidad.

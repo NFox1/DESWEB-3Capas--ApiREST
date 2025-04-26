@@ -4,13 +4,11 @@ let products = [
     { id: 2, name: 'Smartphone', price: 699.99 }
 ];
 
-let nextId = products.length + 1;
-
 module.exports = {
     getAllProducts: () => products,
     addProduct: (product) => {
         const newProduct = {
-            id: nextId++,
+            id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
             name: product.name,
             price: parseFloat(product.price)
         };
